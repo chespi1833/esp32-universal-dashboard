@@ -1101,7 +1101,7 @@ const char PAGE_DASHBOARD[] PROGMEM = R"rawliteral(
                   <span>Baliza BLE Lab</span>
                   <span class="app-badge badge-cyan" style="background:rgba(16,185,129,0.2); color:#6ee7b7; border-color:rgba(16,185,129,0.4);">Laboratorio / RF</span>
                 </h3>
-                <p>Emisor de baliza BLE educativa ("ESP32-DEMO-LAB") con emisión de radio controlada a baja potencia y telemetría en tiempo real.</p>
+                <p>Emisor de baliza BLE educativa ("32LAB") con emisión de radio controlada a baja potencia y telemetría en tiempo real.</p>
               </div>
             </div>
           </div>
@@ -1573,7 +1573,7 @@ const char PAGE_DASHBOARD[] PROGMEM = R"rawliteral(
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
         </svg>
         <div style="font-size: 0.85rem; color: #a7f3d0; line-height: 1.4;">
-          <strong style="color: #fff;">Modo Laboratorio Inofensivo:</strong> Este módulo emite una <strong>Baliza BLE Educativa real</strong> (nombre de anuncio: <code style="color:#6ee7b7; background:rgba(0,0,0,0.3); padding:2px 6px; border-radius:4px;">ESP32-DEMO-LAB</code>) a potencia ultra baja. Puedes detectarla en tiempo real con tu móvil mediante <em>nRF Connect</em>, <em>LightBlue</em> o el escáner del dashboard sin interferir con otros dispositivos.
+          <strong style="color: #fff;">Modo Laboratorio Inofensivo:</strong> Este módulo emite una <strong>Baliza BLE Educativa real</strong> (nombre de anuncio: <code style="color:#6ee7b7; background:rgba(0,0,0,0.3); padding:2px 6px; border-radius:4px;">32LAB</code>) a potencia ultra baja. Puedes detectarla en tiempo real con tu móvil mediante <em>nRF Connect</em>, <em>LightBlue</em> o el escáner del dashboard sin interferir con otros dispositivos.
         </div>
       </div>
 
@@ -2190,8 +2190,8 @@ ${JSON.stringify(data, null, 2)}
           const data = await res.json();
           jammerActive = true;
           updateJammerView(data);
-          logJammerEvent(`BALIZA ACTIVA: "ESP32-DEMO-LAB" transmitiendo en canales 37, 38, 39 | Potencia: ${mode}`);
-          showToast('Baliza BLE Iniciada (ESP32-DEMO-LAB)');
+          logJammerEvent(`BALIZA ACTIVA: "32LAB" transmitiendo en canales 37, 38, 39 | Potencia: ${mode}`);
+          showToast('Baliza BLE Iniciada (32LAB)');
           if (jammerPollInterval) clearInterval(jammerPollInterval);
           jammerPollInterval = setInterval(pollJammerTelemetry, 800);
         } catch (e) {
