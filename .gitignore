@@ -1,0 +1,22 @@
+# Archivos de configuración de entorno local (contienen rutas absolutas del usuario)
+.vscode/
+compile_flags.txt
+esp32/compile_flags.txt
+
+# Artefactos de compilación de Arduino IDE y ESP-IDF
+build/
+.arduino/
+*.bin
+*.elf
+*.hex
+*.o
+*.d
+*.map
+
+# Archivos temporales y de sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.bak
+*.swp
