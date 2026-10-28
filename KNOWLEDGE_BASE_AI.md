@@ -26,6 +26,7 @@ El proyecto implementa una arquitectura **Embedded REST SPA (Single-Page Applica
     ├── StorageManager.h     # Persistencia NVS Flash con biblioteca Preferences
     ├── BleManager.h         # Stack Bluetooth Low Energy y cálculo de proximidad
     ├── LanScannerManager.h  # Escáner de red local (ARP / LwIP / Vendor OUI) en Core 0
+    ├── BluetoothFakeJammer.h# Simulador de interferencia RF BLE (Demo didáctica)
     ├── TestModule.h         # Módulo de referencia y plantilla de buenas prácticas
     ├── WebPortal.h          # Servidor HTTP (puerto 80), DNS cautivo y rutas REST
     ├── UI_Setup.h           # Frontend del Portal Cautivo inicial en PROGMEM

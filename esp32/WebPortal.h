@@ -15,6 +15,7 @@
 #include "BleManager.h"
 #include "TestModule.h"
 #include "LanScannerManager.h"
+#include "BluetoothFakeJammer.h"
 #include "UI_Setup.h"
 #include "UI_Dashboard.h"
 
@@ -304,6 +305,38 @@ private:
     server.send(200, "application/json", json);
   }
 
+  // ================= CONTROLADORES DE RUTA (SIMULADOR JAMMER BLE) =================
+  static void handleApiJammerStart() {
+    server.sendHeader("Access-Control-Allow-Origin", "*");
+    int channel = 37;
+    String mode = "Beacon Flood";
+
+    if (server.hasArg("plain")) {
+      String body = server.arg("plain");
+      String ch = extractJsonField(body, "channel");
+      if (ch.length() > 0) channel = ch.toInt();
+      String m = extractJsonField(body, "mode");
+      if (m.length() > 0) mode = m;
+    } else {
+      if (server.hasArg("channel")) channel = server.arg("channel").toInt();
+      if (server.hasArg("mode")) mode = server.arg("mode");
+    }
+
+    BluetoothFakeJammer::start(channel, mode);
+    server.send(200, "application/json", BluetoothFakeJammer::getStatusJson());
+  }
+
+  static void handleApiJammerStop() {
+    server.sendHeader("Access-Control-Allow-Origin", "*");
+    BluetoothFakeJammer::stop();
+    server.send(200, "application/json", BluetoothFakeJammer::getStatusJson());
+  }
+
+  static void handleApiJammerStatus() {
+    server.sendHeader("Access-Control-Allow-Origin", "*");
+    server.send(200, "application/json", BluetoothFakeJammer::getStatusJson());
+  }
+
   static void handleNotFound() {
     if (isApMode) {
       handleCaptiveRedirect();
@@ -368,6 +401,7 @@ public:
     // Inicializar submódulos de servicio
     TestModule::init();
     LanScannerManager::init();
+    BluetoothFakeJammer::init();
 
     // Rutas para Panel de Control Principal
     server.on("/", HTTP_GET, handleServeDashboardPage);
@@ -375,6 +409,9 @@ public:
     server.on("/api/ble/scan", HTTP_GET, handleApiBleScan);
     server.on("/api/lan/scan", HTTP_POST, handleApiLanScan);
     server.on("/api/lan/devices", HTTP_GET, handleApiLanDevices);
+    server.on("/api/jammer/start", HTTP_POST, handleApiJammerStart);
+    server.on("/api/jammer/stop", HTTP_POST, handleApiJammerStop);
+    server.on("/api/jammer/status", HTTP_GET, handleApiJammerStatus);
     server.on("/api/test/run", HTTP_POST, handleApiTestRun);
     server.on("/api/test/status", HTTP_GET, handleApiTestStatus);
     server.on("/api/system/info", HTTP_GET, handleApiSystemInfo);

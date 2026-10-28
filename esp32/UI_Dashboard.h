@@ -1087,6 +1087,30 @@ const char PAGE_DASHBOARD[] PROGMEM = R"rawliteral(
           </div>
         </article>
 
+        <!-- TARJETA 5: SIMULADOR JAMMER BLE (DEMO FAKE) -->
+        <article class="app-card" onclick="navigateTo('jammer')">
+          <div>
+            <div class="app-top">
+              <div class="app-icon" style="background: linear-gradient(135deg, #b91c1c, #ef4444); color: #fff;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                </svg>
+              </div>
+              <div class="app-meta">
+                <h3>
+                  <span>Simulador Jammer BLE</span>
+                  <span class="app-badge badge-red" style="background:rgba(239,68,68,0.2); color:#f87171; border-color:rgba(239,68,68,0.4);">Demo / Cyber</span>
+                </h3>
+                <p>Simulador didáctico de saturación e interferencia RF en canales publicitarios Bluetooth (37, 38, 39).</p>
+              </div>
+            </div>
+          </div>
+          <div class="app-footer">
+            <span class="app-status-tag"><span class="dot" style="background:#ef4444"></span> Simulación Lista</span>
+            <span class="app-action-link" style="color:#f87171">Abrir Demo &rarr;</span>
+          </div>
+        </article>
+
         <!-- TARJETA 4: SISTEMA Y HARDWARE -->
         <article class="app-card" onclick="navigateTo('system')">
           <div>
@@ -1523,6 +1547,117 @@ const char PAGE_DASHBOARD[] PROGMEM = R"rawliteral(
           <div style="background:rgba(0,0,0,0.3); border:1px solid var(--card-border); border-radius:10px; padding:1rem;">
             <strong style="color:#c084fc; display:block; margin-bottom:0.35rem;">Paso 4: Crear la Vista Dedicada (&lt;section id="viewTuModulo"&gt;)</strong>
             <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">Crea un contenedor <code>&lt;section id="viewTuModulo" class="view-section"&gt;</code> con el botón de retorno y tu lógica JavaScript para interactuar con la API REST.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- VISTA DEDICADA: SIMULADOR JAMMER BLUETOOTH (DEMO FAKE)           -->
+    <!-- ================================================================= -->
+    <section id="viewJammer" class="view-section">
+      <div class="view-header">
+        <button class="btn-back" onclick="navigateTo('home')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Volver al Inicio
+        </button>
+        <div class="view-breadcrumb">
+          <a onclick="navigateTo('home')">Inicio</a>
+          <span>/</span>
+          <span class="current">Simulador Jammer BLE</span>
+        </div>
+      </div>
+
+      <div style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.85rem;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+        <div style="font-size: 0.85rem; color: #fca5a5; line-height: 1.4;">
+          <strong style="color: #fff;">Aviso Didáctico:</strong> Este módulo es una <strong>simulación de interfaz 100% virtual</strong> para demostraciones y prototipado visual. No se emite interferencia física ni se bloquea ningún dispositivo real.
+        </div>
+      </div>
+
+      <!-- PANEL DE CONTROL DEL JAMMER -->
+      <div class="panel-card" style="margin-bottom: 1.5rem;">
+        <div class="panel-header">
+          <div class="panel-title">
+            <h2>Configuración del Ataque Simulado</h2>
+            <p>Selecciona el canal publicitario BLE y el vector de ruido sintético a emular.</p>
+          </div>
+          <button id="btnToggleJammer" class="btn-action" onclick="toggleJammerSimulation()" style="background: linear-gradient(135deg, #dc2626, #ef4444); box-shadow: 0 4px 14px rgba(239,68,68,0.4);">
+            <svg id="jammerIconPlay" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span id="jammerBtnText">Iniciar Simulación</span>
+          </button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem;">
+          <div>
+            <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text-muted); margin-bottom:0.4rem;">Canal BLE Objetivo:</label>
+            <select id="jammerChannel" class="search-input" style="width:100%; cursor:pointer;">
+              <option value="37">Canal 37 (2402 MHz - ADV Principal 1)</option>
+              <option value="38">Canal 38 (2426 MHz - ADV Principal 2)</option>
+              <option value="39">Canal 39 (2480 MHz - ADV Principal 3)</option>
+              <option value="0">Salto Espectral (Hopping 37-39)</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text-muted); margin-bottom:0.4rem;">Vector de Inundación:</label>
+            <select id="jammerMode" class="search-input" style="width:100%; cursor:pointer;">
+              <option value="Beacon Flood">Inundación de Balizas (Beacon Flood)</option>
+              <option value="Gaussian White Noise">Ruido Blanco Gaussiano (RF Jam)</option>
+              <option value="Deauth Spoofing">Desautenticación Simulada</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- TELEMETRÍA EN TIEMPO REAL DEL SIMULADOR -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+        <div class="panel-card" style="padding:1rem;">
+          <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Estado Emulador</div>
+          <div id="jammerMetricStatus" style="font-size:1.15rem; font-weight:700; color:#9ca3af; margin-top:0.35rem;">INACTIVO</div>
+        </div>
+        <div class="panel-card" style="padding:1rem;">
+          <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Frecuencia Base</div>
+          <div id="jammerMetricFreq" style="font-size:1.15rem; font-weight:700; color:#60a5fa; margin-top:0.35rem;">2402 MHz</div>
+        </div>
+        <div class="panel-card" style="padding:1rem;">
+          <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Piso de Ruido (RSSI)</div>
+          <div id="jammerMetricNoise" style="font-size:1.15rem; font-weight:700; color:#34d399; margin-top:0.35rem;">-92 dBm</div>
+        </div>
+        <div class="panel-card" style="padding:1rem;">
+          <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Tasa de Paquetes</div>
+          <div id="jammerMetricPps" style="font-size:1.15rem; font-weight:700; color:#f87171; margin-top:0.35rem;">0 pkt/s</div>
+        </div>
+      </div>
+
+      <!-- VISUALIZADOR DE ESPECTRO SIMULADO -->
+      <div class="panel-card">
+        <div class="panel-title" style="margin-bottom: 1rem;">
+          <h2>Actividad Espectral Simulada (2.4 GHz)</h2>
+          <p>Representación gráfica del espectro de radiofrecuencia ocupado por la emulación.</p>
+        </div>
+
+        <div style="height: 120px; background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); border-radius: 10px; display: flex; align-items: flex-end; justify-content: space-around; padding: 0.5rem; gap: 3px; overflow: hidden;" id="spectrumVisualizer">
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:0.5rem; font-size:0.75rem; color:var(--text-muted); font-family:monospace;">
+          <span>2.402 GHz (Ch 37)</span>
+          <span>2.426 GHz (Ch 38)</span>
+          <span>2.480 GHz (Ch 39)</span>
+        </div>
+
+        <!-- CONSOLA DE EVENTOS HACKER DEMO -->
+        <div style="margin-top: 1.25rem;">
+          <div style="font-size:0.8rem; font-weight:600; color:var(--text-muted); margin-bottom:0.4rem;">Registro de Eventos de Simulación:</div>
+          <div id="jammerConsoleLog" style="height: 110px; overflow-y: auto; background: #0b0f19; border: 1px solid rgba(239,68,68,0.25); border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.775rem; color: #4ade80; line-height: 1.5;">
+            <div>[SYS] Motor de simulación BluetoothFakeJammer listo.</div>
+            <div>[SYS] Selecciona canal y presiona "Iniciar Simulación".</div>
           </div>
         </div>
       </div>
@@ -2008,6 +2143,134 @@ ${JSON.stringify(data, null, 2)}
         (d.hostType && d.hostType.toLowerCase().includes(q))
       );
       renderLanTable(filtered);
+    }
+
+    // ================= 5. SIMULADOR JAMMER BLE (DEMO) =================
+    let jammerActive = false;
+    let jammerPollInterval = null;
+    let spectrumBars = [];
+
+    function initSpectrumBars() {
+      const container = document.getElementById('spectrumVisualizer');
+      if (!container || container.children.length > 0) return;
+      container.innerHTML = '';
+      for (let i = 0; i < 32; i++) {
+        const bar = document.createElement('div');
+        bar.style.flex = '1';
+        bar.style.background = 'linear-gradient(to top, #1e293b, #334155)';
+        bar.style.height = '8%';
+        bar.style.borderRadius = '2px';
+        bar.style.transition = 'height 0.15s ease';
+        container.appendChild(bar);
+        spectrumBars.push(bar);
+      }
+    }
+
+    function logJammerEvent(msg) {
+      const log = document.getElementById('jammerConsoleLog');
+      if (!log) return;
+      const d = new Date();
+      const timeStr = d.toTimeString().split(' ')[0];
+      const line = document.createElement('div');
+      line.innerText = `[${timeStr}] ${msg}`;
+      log.appendChild(line);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    async function toggleJammerSimulation() {
+      const channel = document.getElementById('jammerChannel').value;
+      const mode = document.getElementById('jammerMode').value;
+
+      if (!jammerActive) {
+        try {
+          const res = await fetch('/api/jammer/start', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ channel: parseInt(channel), mode: mode })
+          });
+          const data = await res.json();
+          jammerActive = true;
+          updateJammerView(data);
+          logJammerEvent(`SIMULACIÓN INICIADA: Canal ${channel} | Modo: ${mode}`);
+          showToast('Simulación Jammer Iniciada');
+          if (jammerPollInterval) clearInterval(jammerPollInterval);
+          jammerPollInterval = setInterval(pollJammerTelemetry, 800);
+        } catch (e) {
+          showToast('Error al iniciar emulador');
+        }
+      } else {
+        try {
+          const res = await fetch('/api/jammer/stop', { method: 'POST' });
+          const data = await res.json();
+          jammerActive = false;
+          clearInterval(jammerPollInterval);
+          jammerPollInterval = null;
+          updateJammerView(data);
+          logJammerEvent('SIMULACIÓN DETENIDA: Señal normalizada.');
+          showToast('Simulación Jammer Detenida');
+        } catch (e) {
+          showToast('Error al detener emulador');
+        }
+      }
+    }
+
+    async function pollJammerTelemetry() {
+      if (!jammerActive) return;
+      try {
+        const res = await fetch('/api/jammer/status');
+        const data = await res.json();
+        updateJammerView(data);
+      } catch (e) {
+        console.error('Error al consultar telemetría Jammer:', e);
+      }
+    }
+
+    function updateJammerView(data) {
+      const btn = document.getElementById('btnToggleJammer');
+      const btnText = document.getElementById('jammerBtnText');
+      const stEl = document.getElementById('jammerMetricStatus');
+      const frEl = document.getElementById('jammerMetricFreq');
+      const nsEl = document.getElementById('jammerMetricNoise');
+      const ppEl = document.getElementById('jammerMetricPps');
+
+      initSpectrumBars();
+
+      if (data.active) {
+        jammerActive = true;
+        btn.style.background = 'linear-gradient(135deg, #475569, #334155)';
+        btnText.innerText = 'Detener Simulación';
+        stEl.innerText = 'TRANSMITIENDO';
+        stEl.style.color = '#ef4444';
+        frEl.innerText = data.frequencyMhz + ' MHz';
+        nsEl.innerText = data.noiseDbm + ' dBm';
+        nsEl.style.color = '#f87171';
+        ppEl.innerText = data.packetsPerSecond.toLocaleString() + ' pkt/s';
+
+        // Animar barras de espectro con ruido simulado
+        spectrumBars.forEach((bar, idx) => {
+          const h = Math.floor(Math.random() * 70) + 25;
+          bar.style.height = h + '%';
+          bar.style.background = (h > 65) 
+            ? 'linear-gradient(to top, #dc2626, #ef4444)' 
+            : 'linear-gradient(to top, #ea580c, #f59e0b)';
+        });
+      } else {
+        jammerActive = false;
+        btn.style.background = 'linear-gradient(135deg, #dc2626, #ef4444)';
+        btnText.innerText = 'Iniciar Simulación';
+        stEl.innerText = 'INACTIVO';
+        stEl.style.color = '#9ca3af';
+        frEl.innerText = data.frequencyMhz + ' MHz';
+        nsEl.innerText = data.noiseDbm + ' dBm';
+        nsEl.style.color = '#34d399';
+        ppEl.innerText = '0 pkt/s';
+
+        // Reducir barras a nivel base
+        spectrumBars.forEach(bar => {
+          bar.style.height = (Math.floor(Math.random() * 8) + 4) + '%';
+          bar.style.background = 'linear-gradient(to top, #1e293b, #334155)';
+        });
+      }
     }
 
     // ================= ACCIONES DE SISTEMA =================
